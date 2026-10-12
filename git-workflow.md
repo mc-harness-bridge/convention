@@ -4,14 +4,14 @@
 
 采用 `main + topic branches`。`main` 是已审阅的集成基线；发行通过 tag、artifact 和兼容矩阵识别。
 
-暂不建立长期 `develop`、`rc` 分支。需要并行维护稳定发行线、集中 RC 验证或多人长周期集成时，先记录触发需求和维护成本，通过 convention PR 调整流程。
+日常集成使用短期 topic 分支。需要并行维护稳定发行线、集中 RC 验证或多人长周期集成时，先记录触发需求和维护成本，通过 convention PR 调整流程。
 
 | 分支 | 使用 |
 | --- | --- |
 | `feat/<task>` | 新能力 |
 | `fix/<task>` | 缺陷修复 |
 | `docs/<task>` | 文档/设计 |
-| `refactor/<task>` | 不改变公开行为的结构调整 |
+| `refactor/<task>` | 保持公开行为的结构调整 |
 | `chore/<task>` | 工具链、依赖、仓库维护 |
 | `spike/<task>` | 有退出条件的探索 |
 
@@ -20,7 +20,7 @@
 ## 日常任务
 
 1. 阅读任务范围、适用 `AGENTS.md`、设计需求与已有未提交工作。
-2. fetch，确认基于哪一个 `origin/main` commit 创建 topic worktree；已有任务续作则复用其分支，不另造平行版本。
+2. fetch，确认基于哪一个 `origin/main` commit 创建 topic worktree；已有任务续作复用原分支。
 3. 实现并进行相称验证；同步改动涉及的 help、schema、Skill、fixture 和文档。
 4. 查看完整 diff 和 status，只 stage 本任务文件；保存 commit 后 push topic 分支。
 5. 创建 PR，先草稿还是 ready 由是否达到可审阅/可合并条件决定；跨仓库依赖清楚列出。
@@ -30,9 +30,9 @@
 
 ## 提交
 
-建议格式 `type: concrete change`，type 为 feat/fix/docs/refactor/test/chore/build/ci 等。标题说明改动行为，不用“update/fix stuff”。需要 breaking change 时在正文列公开接口影响与迁移路径。
+建议格式 `type: concrete change`，type 为 feat/fix/docs/refactor/test/chore/build/ci 等。标题说明具体改动行为。需要 breaking change 时在正文列公开接口影响与迁移路径。
 
-提交按有意义的改动边界组织，不要求每个文件一个 commit。格式化、批量改名与行为变化能分开就分开，避免 reviewer 在无关 diff 中寻找问题。不要提交凭证、用户世界、依赖缓存、运行日志或本机绝对路径配置。
+提交按有意义的改动边界组织。格式化、批量改名与行为变化能分开就分开，避免 reviewer 在无关 diff 中寻找问题。Git 保存源码和必要 fixture，凭证、本地世界、缓存与运行产物保存在任务环境。
 
 stage 前检查 `git status` 和 diff，选择本任务文件提交。
 

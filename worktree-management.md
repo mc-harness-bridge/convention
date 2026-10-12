@@ -20,9 +20,9 @@ F:/mc-harness-bridge/
   WORKSPACE.md           # 本地导航和任务登记
 ```
 
-`.worktrees` 位于组织工作区根，不放进某个仓库源目录。任务名用小写英文/数字/连字符，避免路径过长和 Windows 保留设备名。其他机器可使用不同工作区根。
+`.worktrees` 位于组织工作区根，与仓库源目录并列。任务名用小写英文/数字/连字符，避免路径过长和 Windows 保留设备名。其他机器可使用不同工作区根。
 
-根 clone 留在 main 便于查看/更新；任务分支在其独立 worktree 工作。六仓库不是六个同一 Git repo 的 worktree，而是六个独立 clone，各自的 `.worktrees/<repo>/<task>` 才与根 clone 共享 Git 元数据。
+根 clone 留在 main 便于查看/更新；任务分支在其独立 worktree 工作。六仓库各有独立 clone，`.worktrees/<repo>/<task>` 与对应根 clone 共享 Git 元数据。
 
 ## 创建前检查
 
@@ -49,7 +49,7 @@ git -C F:/mc-harness-bridge/.worktrees/cli/player-context status --short --branc
 
 续作先用 `worktree list` 查路径；尚无 checkout 时用 `worktree add <path> <existing-branch>`。
 
-## 隔离的不只是源文件
+## 运行资源隔离
 
 worktree 共享 Git refs/objects/config。修改公共 config、hooks 或 refs 时记录对其他任务的影响；测试运行资源单独隔离。
 
@@ -71,7 +71,7 @@ worktree 共享 Git refs/objects/config。修改公共 config、hooks 或 refs �
 
 ## 回收
 
-1. 确认任务已交付/明确放弃，目录不是当前活跃任务，也没有其他终端/Agent 使用。
+1. 确认任务已交付或明确放弃，目录已结束使用。
 2. 检查 status、未 push commit、untracked 与 ignored 文件；需要的日志/产物另存，确认恢复来源。
 3. 停止该任务启动的测试进程，检查端口和锁。
 4. 从根 clone 用 `git worktree remove <absolute-path>` 移除干净任务目录；失败时检查原因。
